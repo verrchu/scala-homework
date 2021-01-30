@@ -1,0 +1,7 @@
+[0m[[0m[33mwarn[0m] [0m[0m/home/verrchu/dev/scala/homework/src/main/scala/2d.scala:22:16: method without a parameter list overrides a method with a single empty one[0m
+[0m[[0m[33mwarn[0m] [0m[0m  override def location: Point2D = center.copy()[0m
+[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/home/verrchu/dev/scala/homework/src/main/scala/2d.scala:24:16: method without a parameter list overrides a method with a single empty one[0m
+[0m[[0m[33mwarn[0m] [0m[0m  override def bound: Rectangle = Rectangle([0m
+[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m
