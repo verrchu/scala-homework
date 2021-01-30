@@ -1,3 +1,5 @@
+package classes_andd_traits.shapes
+
 import scala.math
 
 sealed trait Shape2D extends Located2D with Bounded2D with Movable2D {
@@ -11,7 +13,7 @@ sealed trait Located2D {
 }
 
 sealed trait Bounded2D {
-  def bound(): Rectangle
+  def bounds(): Rectangle
 }
 
 sealed trait Movable2D {
@@ -23,7 +25,7 @@ final case class Circle(center: Point2D, radius: Double) extends Shape2D {
   // Circle's location is its center point
   override def location(): Point2D = center.copy()
 
-  override def bound(): Rectangle = Rectangle(
+  override def bounds(): Rectangle = Rectangle(
     Point2D(
       center.x - radius,
       center.y - radius
@@ -49,8 +51,8 @@ final case class Rectangle(a: Point2D, b: Point2D) extends Shape2D {
     math.abs(a.y - b.y)
   )
 
-  // Rectangle's bound is equal to itself
-  override def bound(): Rectangle = this.copy()
+  // Rectangle's bounds are equal to itself
+  override def bounds(): Rectangle = this.copy()
 
   override def move(x: Double, y: Double): Rectangle = {
     val newA = Point2D(a.x + x, a.y + y)
@@ -59,4 +61,11 @@ final case class Rectangle(a: Point2D, b: Point2D) extends Shape2D {
     Rectangle(newA, newB)
   }
   override def area(): Double = Math.abs(a.x - b.x) * Math.abs(a.y - b.y)
+
+  override def equals(that: Any): Boolean = that match {
+    case that: Rectangle => {
+      ((this.a == that.a) && (this.b == that.b)) || ((this.b == that.a) && (this.a == that.b))
+    }
+    case _ => false
+  }
 }

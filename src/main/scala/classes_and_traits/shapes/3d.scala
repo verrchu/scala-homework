@@ -1,3 +1,5 @@
+package classes_andd_traits.shapes
+
 import scala.math
 
 sealed trait Shape3D extends Located3D with Bounded3D with Movable3D {
