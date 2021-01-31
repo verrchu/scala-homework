@@ -16,7 +16,7 @@ class CircleSpec extends AnyFlatSpec with should.Matchers {
   it should "report its bounds" in {
     val circle = Circle(Point2D(0.0, 0.0), 1.0)
 
-    val expectedBounds = Rectangle(Point2D(-1.0, -1.0), Point2D(1.0, 1.0))
+    val expectedBounds = Rectangle(Point2D(0.0, 0.0), x = 2.0, y = 2.0)
     circle.bounds should be(expectedBounds)
   }
 
@@ -38,37 +38,32 @@ class CircleSpec extends AnyFlatSpec with should.Matchers {
 }
 
 class RectangleSpec extends AnyFlatSpec with should.Matchers {
-  "Rectangle" should "have equivalent definitions" in {
-    val a = Point2D(1.0, 1.0)
-    val b = Point2D(3.0, 3.0)
+  "Rectangle" should "report its location" in {
+    val center = Point2D(1.0, 1.0)
+    val rect = Rectangle(center, x = 2.0, y = 2.0)
 
-    Rectangle(a, b) should be(Rectangle(b, a))
-  }
-
-  it should "report its location" in {
-    val rect = Rectangle(Point2D(1.0, 1.0), Point2D(3.0, 3.0))
-
-    val expectedLocation = Point2D(2.0, 2.0)
-    rect.location should be(expectedLocation)
+    rect.location should be(center)
   }
 
   it should "report its bounds" in {
-    val rect = Rectangle(Point2D(1.0, 1.0), Point2D(3.0, 3.0))
+    val rect = Rectangle(Point2D(1.0, 1.0), x = 2.0, y = 2.0)
 
     rect.bounds should be(rect)
   }
 
   it should "report its area" in {
-    val rect = Rectangle(Point2D(1.0, 1.0), Point2D(3.0, 3.0))
+    val x = 2.0
+    val y = 2.0
+    val rect = Rectangle(Point2D(1.0, 1.0), x, y)
 
-    rect.area should be(4.0)
+    rect.area should be(x * y)
   }
 
   it should "move" in {
-    val rect = Rectangle(Point2D(1.0, 1.0), Point2D(3.0, 3.0))
+    val rect = Rectangle(Point2D(1.0, 1.0), x = 2.0, y = 2.0)
     val movedRect = rect.move(1.0, 1.0)
 
-    val expectedRect = Rectangle(Point2D(2.0, 2.0), Point2D(4.0, 4.0))
+    val expectedRect = rect.copy(center = Point2D(2.0, 2.0))
     movedRect should be(expectedRect)
   }
 }

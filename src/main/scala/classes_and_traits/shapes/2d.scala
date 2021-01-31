@@ -26,14 +26,9 @@ final case class Circle(center: Point2D, radius: Double) extends Shape2D {
   override def location(): Point2D = center.copy()
 
   override def bounds(): Rectangle = Rectangle(
-    Point2D(
-      center.x - radius,
-      center.y - radius
-    ),
-    Point2D(
-      center.x + radius,
-      center.y + radius
-    )
+    center.copy(),
+    x = radius * 2,
+    y = radius * 2
   )
 
   override def move(x: Double, y: Double): Circle = {
@@ -43,29 +38,19 @@ final case class Circle(center: Point2D, radius: Double) extends Shape2D {
   override def area(): Double = Math.PI * Math.pow(radius, 2)
 }
 
-// Rectangle is represented by its two diagonally opposite points
-final case class Rectangle(a: Point2D, b: Point2D) extends Shape2D {
+// Rectangle is represented by its center point and XY lengths
+final case class Rectangle(center: Point2D, x: Double, y: Double)
+    extends Shape2D {
   // Rectangle's location is its center point
-  override def location(): Point2D = Point2D(
-    math.abs(a.x - b.x),
-    math.abs(a.y - b.y)
-  )
+  override def location(): Point2D = center.copy()
 
   // Rectangle's bounds are equal to itself
   override def bounds(): Rectangle = this.copy()
 
   override def move(x: Double, y: Double): Rectangle = {
-    val newA = Point2D(a.x + x, a.y + y)
-    val newB = Point2D(b.x + x, b.y + y)
+    val newCenter = Point2D(center.x + x, center.y + y)
 
-    Rectangle(newA, newB)
+    Rectangle(newCenter, this.x, this.y)
   }
-  override def area(): Double = Math.abs(a.x - b.x) * Math.abs(a.y - b.y)
-
-  override def equals(that: Any): Boolean = that match {
-    case that: Rectangle => {
-      ((this.a == that.a) && (this.b == that.b)) || ((this.b == that.a) && (this.a == that.b))
-    }
-    case _ => false
-  }
+  override def area(): Double = x * y
 }
