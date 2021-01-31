@@ -6,7 +6,7 @@ import org.scalatest._
 import flatspec._
 import matchers._
 
-class PointSpec extends AnyFlatSpec with should.Matchers {
+class Point2DSpec extends AnyFlatSpec with should.Matchers {
   "Point" should "move" in {
     val point = Point2D(-1.0, 4.0)
     val movedPoint = point.move(2.0, 3.0)

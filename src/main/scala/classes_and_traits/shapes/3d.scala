@@ -37,9 +37,8 @@ final case class Sphere(center: Point3D, radius: Double) extends Shape3D {
     z = radius * 2
   )
 
-  override def move(x: Double, y: Double, z: Double): Sphere = {
+  override def move(x: Double, y: Double, z: Double): Sphere =
     this.copy(center = center.move(x, y, z))
-  }
 
   override def surfaceArea(): Double = 4 * math.Pi * math.pow(radius, 2)
   override def volume(): Double = 4 / 3 * math.Pi * math.pow(radius, 3)
@@ -54,13 +53,10 @@ final case class Cuboid(center: Point3D, x: Double, y: Double, z: Double)
   // Cuboid's bounds are equal to itself
   override def bounds: Cuboid = this.copy()
 
-  override def move(x: Double, y: Double, z: Double): Cuboid = {
+  override def move(x: Double, y: Double, z: Double): Cuboid =
     this.copy(center = center.move(x, y, z))
-  }
 
-  override def surfaceArea(): Double = {
-    x * y * 2 + x * z * 2 + y * z * 2
-  }
+  override def surfaceArea(): Double = x * y * 2 + x * z * 2 + y * z * 2
 
   override def volume(): Double = x * y * z
 }
