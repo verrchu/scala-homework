@@ -6,6 +6,15 @@ import org.scalatest._
 import flatspec._
 import matchers._
 
+class PointSpec extends AnyFlatSpec with should.Matchers {
+  "Point" should "move" in {
+    val point = Point2D(-1.0, 4.0)
+    val movedPoint = point.move(2.0, 3.0)
+
+    movedPoint should be(Point2D(1.0, 7.0))
+  }
+}
+
 class CircleSpec extends AnyFlatSpec with should.Matchers {
   "Circle" should "report its location" in {
     val circle = Circle(Point2D(0.0, 0.0), 1.0)

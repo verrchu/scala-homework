@@ -7,7 +7,10 @@ sealed trait Shape3D extends Located3D with Bounded3D with Movable3D {
   def volume(): Double
 }
 
-case class Point3D(x: Double, y: Double, z: Double)
+case class Point3D(x: Double, y: Double, z: Double) extends Movable3D {
+  def move(x: Double, y: Double, z: Double): Point3D =
+    Point3D(this.x + x, this.y + y, this.z + z)
+}
 
 sealed trait Located3D {
   def location: Point3D
@@ -15,7 +18,7 @@ sealed trait Located3D {
 
 // Bound represents shape's minimum enclosing Cuboid
 sealed trait Bounded3D {
-  def bound: Cuboid
+  def bounds: Cuboid
 }
 
 sealed trait Movable3D {
@@ -27,60 +30,37 @@ final case class Sphere(center: Point3D, radius: Double) extends Shape3D {
   // a Sphere's center is considered to be its location
   override def location: Point3D = center.copy()
 
-  override def bound: Cuboid = Cuboid(
-    Point3D(
-      center.x - radius,
-      center.y - radius,
-      center.z - radius
-    ),
-    Point3D(
-      center.x + radius,
-      center.y + radius,
-      center.z + radius
-    )
+  override def bounds: Cuboid = Cuboid(
+    center.copy(),
+    x = radius * 2,
+    y = radius * 2,
+    z = radius * 2
   )
 
   override def move(x: Double, y: Double, z: Double): Sphere = {
-    val newCenter = Point3D(center.x + x, center.y + y, center.z + z)
-    Sphere(newCenter, radius)
+    this.copy(center = center.move(x, y, z))
   }
 
   override def surfaceArea(): Double = 4 * math.Pi * math.pow(radius, 2)
   override def volume(): Double = 4 / 3 * math.Pi * math.pow(radius, 3)
 }
 
-// Cuboid is described by its two diagonally opposite points
-final case class Cuboid(a: Point3D, b: Point3D) extends Shape3D {
+// Cuboid is described by its center point and XYZ lengths
+final case class Cuboid(center: Point3D, x: Double, y: Double, z: Double)
+    extends Shape3D {
   // Cuboid's location is its center point
-  override def location: Point3D = Point3D(
-    Math.abs(a.x - b.x) / 2,
-    Math.abs(a.y - b.y) / 2,
-    Math.abs(a.z - b.z) / 2
-  )
+  override def location: Point3D = center.copy()
 
-  // Cuboid's bound is equal to itself
-  override def bound: Cuboid = this.copy()
+  // Cuboid's bounds are equal to itself
+  override def bounds: Cuboid = this.copy()
 
   override def move(x: Double, y: Double, z: Double): Cuboid = {
-    val newA = Point3D(a.x + x, a.y + y, a.z + z)
-    val newB = Point3D(b.x + x, b.y + y, b.z + z)
-
-    Cuboid(newA, newB)
+    this.copy(center = center.move(x, y, z))
   }
 
   override def surfaceArea(): Double = {
-    val xy = math.abs(a.x - b.x) * math.abs(a.y - b.y)
-    val xz = math.abs(a.x - b.x) * math.abs(a.z - b.z)
-    val yz = math.abs(a.y - b.y) * math.abs(a.z - b.z)
-
-    xy * 2 + xz * 2 + yz * 2
+    x * y * 2 + x * z * 2 + y * z * 2
   }
 
-  override def volume(): Double = {
-    val xy = math.abs(a.x - b.x)
-    val xz = math.abs(a.x - b.x)
-    val yz = math.abs(a.y - b.y)
-
-    xy * xz * yz
-  }
+  override def volume(): Double = x * y * z
 }

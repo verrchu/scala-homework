@@ -6,7 +6,9 @@ sealed trait Shape2D extends Located2D with Bounded2D with Movable2D {
   def area(): Double
 }
 
-case class Point2D(x: Double, y: Double)
+case class Point2D(x: Double, y: Double) extends Movable2D {
+  def move(x: Double, y: Double): Point2D = Point2D(this.x + x, this.y + y)
+}
 
 sealed trait Located2D {
   def location(): Point2D
@@ -31,10 +33,8 @@ final case class Circle(center: Point2D, radius: Double) extends Shape2D {
     y = radius * 2
   )
 
-  override def move(x: Double, y: Double): Circle = {
-    val newCenter = Point2D(center.x + x, center.y + y)
-    Circle(newCenter, radius)
-  }
+  override def move(x: Double, y: Double): Circle =
+    this.copy(center = center.move(x, y))
   override def area(): Double = Math.PI * Math.pow(radius, 2)
 }
 
@@ -47,10 +47,7 @@ final case class Rectangle(center: Point2D, x: Double, y: Double)
   // Rectangle's bounds are equal to itself
   override def bounds(): Rectangle = this.copy()
 
-  override def move(x: Double, y: Double): Rectangle = {
-    val newCenter = Point2D(center.x + x, center.y + y)
-
-    Rectangle(newCenter, this.x, this.y)
-  }
+  override def move(x: Double, y: Double): Rectangle =
+    this.copy(center = center.move(x, y))
   override def area(): Double = x * y
 }
