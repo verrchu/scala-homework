@@ -6,7 +6,10 @@ sealed trait Shape2D extends Located2D with Bounded2D with Movable2D {
   def area(): Double
 }
 
-case class Point2D(x: Double, y: Double) extends Movable2D {
+final case class Point2D(x: Double, y: Double)
+    extends Movable2D
+    with Located2D {
+  def location(): Point2D = this.copy()
   def move(x: Double, y: Double): Point2D = Point2D(this.x + x, this.y + y)
 }
 

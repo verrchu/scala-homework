@@ -7,11 +7,17 @@ import flatspec._
 import matchers._
 
 class Point2DSpec extends AnyFlatSpec with should.Matchers {
-  "Point" should "move" in {
+  "Point2D" should "move" in {
     val point = Point2D(-1.0, 4.0)
     val movedPoint = point.move(2.0, 3.0)
 
     movedPoint should be(Point2D(1.0, 7.0))
+  }
+
+  it should "report its location" in {
+    val point = Point2D(-1.0, 4.0)
+
+    point.location() should be(point)
   }
 }
 
