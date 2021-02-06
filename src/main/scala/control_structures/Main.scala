@@ -13,9 +13,7 @@ object Main {
   def process(command: String): String = {
     Command
       .parseCommand(command)
-      .flatMap(command =>
-        command.calculateResult().map(result => command.renderResult(result))
-      )
+      .flatMap(command => command.calculateResult().map(command.renderResult))
       .fold(_.render, identity)
   }
 }

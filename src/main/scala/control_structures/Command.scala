@@ -37,10 +37,10 @@ object Command {
 
     args
       .foldLeft(acc)((acc, x) => {
-        acc.flatMap(nums =>
+        acc.flatMap(args =>
           x.toDoubleOption match {
-            case Some(num) => Right(num :: nums)
-            case None      => Left(ErrorMessage(s"invalid number: $x"))
+            case Some(arg) => Right(arg :: args)
+            case None      => Left(ErrorMessage(s"invalid command arg: $x"))
           }
         )
       })
@@ -50,7 +50,7 @@ object Command {
   final case class Divide(dividend: Arg, divisor: Arg) extends Command {
     override def calculateResult(): Either[ErrorMessage, Result] =
       divisor match {
-        case 0       => Left(ErrorMessage("division by 0"))
+        case 0       => Left(ErrorMessage("division by zero"))
         case divisor => Right(dividend / divisor)
       }
 
