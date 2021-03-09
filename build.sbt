@@ -7,3 +7,5 @@ libraryDependencies ++= Seq(
     "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
     "org.scalatest" %% "scalatest" % "3.2.2" % "test"
 )
+
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.3" cross CrossVersion.full)
